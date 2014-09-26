@@ -65,9 +65,6 @@ public class Lieferanten implements Runnable, Stoppable {
 			}
 		}
 	}
-	/*Pfad der Arugemnts muss verwendet werden werden
-	 * 
-	 */
 	@Override
 	public void run(){
 		Random rm = new Random(18239);		

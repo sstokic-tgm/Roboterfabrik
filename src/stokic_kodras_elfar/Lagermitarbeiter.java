@@ -72,8 +72,7 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 			file.write(al.get(i));
 			file.close();
 		}
-*/
-		
+		*/
 	}
 	
 	@Override

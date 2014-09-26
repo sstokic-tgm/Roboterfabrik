@@ -20,9 +20,10 @@ public class Sekretariat {
 	//private boolean isRunning;
 	private ThreadPoolExecutor exLieferant, exMontuer, exWatchdog;
 	private Lagermitarbeiter lagerMit;
+	private Lager lager;
 	
 	public Sekretariat(int lieferanten, int montuere, int laufzeit, String lagerV, String logsV){
-		
+		lager = new Lager();
 		this.lieferanten = lieferanten;
 		this.montuere = montuere;
 		this.laufzeit = laufzeit;
@@ -71,12 +72,12 @@ public class Sekretariat {
 			exWatchdog.execute(watchdogs.get(i));
 			
 		}
-        
+        //die Lager Files müssen noch gelöscht werden.
 		// Executer Service nach Beendigung der Threads schließen
 		exLieferant.shutdown();
 		exMontuer.shutdown();
 		exWatchdog.shutdown();
-		
+		//lager.getArm().delete("C:/Users/Meta/Dropbox/Schule/4AHITT/SEW/EclipseWorkspace/Roboterfabrik/lager");
 	}
 	
 }
