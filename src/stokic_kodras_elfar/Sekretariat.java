@@ -1,4 +1,4 @@
-package stokic;
+package stokic_kodras_elfar;
 
 import java.util.*;
 import java.util.concurrent.*;

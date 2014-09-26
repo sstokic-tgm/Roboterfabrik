@@ -1,4 +1,4 @@
-package stokic;
+package stokic_kodras_elfar;
 
 import org.apache.commons.cli.*;
 

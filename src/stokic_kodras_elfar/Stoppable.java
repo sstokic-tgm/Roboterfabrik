@@ -1,4 +1,4 @@
-package stokic;
+package stokic_kodras_elfar;
 
 public interface Stoppable {
 

@@ -1,3 +1,4 @@
 /bin/stokic/*.class
 *.docx
 *.pdf
+/bin
