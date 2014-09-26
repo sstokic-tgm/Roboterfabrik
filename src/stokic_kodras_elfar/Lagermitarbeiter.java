@@ -21,6 +21,7 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 	private boolean isRunning;
 	
 	private final static Logger log = Logger.getLogger("Lagermitarbeiter");
+	private static boolean hasFileHandler = false;
 	
 	public Lagermitarbeiter(String lagerV, String logV){
 		
@@ -29,35 +30,49 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 		
 		this.logV += "lagermitarbeiter.log";
 		
-		try{
-			
-			File f = new File(this.logV);
-			if(!f.exists()){
+		if(!hasFileHandler) {
+		
+			try{
 				
-				f.createNewFile();
+				File f = new File(this.logV);
+				if(!f.exists()){
+					
+					f.createNewFile();
+					
+				}else{
+					
+					f.delete();
+				}
 				
-			}else{
+				FileHandler fh = new FileHandler(this.logV);
+				SimpleFormatter sf = new SimpleFormatter();
 				
-				f.delete();
+				fh.setFormatter(sf);
+				log.addHandler(fh);
+				
+				log.log(Level.INFO, "Lagermitarbeiter logger gestartet!");
+				
+				hasFileHandler = true;
+				
+			}catch(IOException ioe){
+				
+				JOptionPane.showMessageDialog(null, "IOException: " + ioe.getMessage());
 			}
-			
-			FileHandler fh = new FileHandler(this.logV);
-			SimpleFormatter sf = new SimpleFormatter();
-			
-			fh.setFormatter(sf);
-			log.addHandler(fh);
-			
-			log.log(Level.INFO, "Lagermitarbeiter logger gestartet!");
-			
-		}catch(IOException ioe){
-			
-			JOptionPane.showMessageDialog(null, "IOException: " + ioe.getMessage());
 		}
 	}
 	
 	@Override
 	public void run(){
-		
+		/*for(int i = 0; i < 5; i++){
+			File f = new File("C:/Users/Meta/Documents/Roboterfabrik/test"+i+".txt");
+			System.out.println("test"+i);
+			f.createNewFile();
+			
+			RandomAccessFile file = new RandomAccessFile("C:/Users/Meta/Documents/Roboterfabrik/test"+i+".txt", "rw");
+			file.write(al.get(i));
+			file.close();
+		}
+*/
 		
 	}
 	

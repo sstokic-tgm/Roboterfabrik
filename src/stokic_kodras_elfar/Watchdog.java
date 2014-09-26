@@ -18,6 +18,7 @@ public class Watchdog implements Runnable {
 	private String logV;
 	
 	private final static Logger log = Logger.getLogger("Watchdog");
+	private static boolean hasFileHandler = false;
 	
 	public Watchdog(int laufzeit, Stoppable s, String logV){
 		
@@ -27,29 +28,34 @@ public class Watchdog implements Runnable {
 		this.logV = logV;
 		this.logV += "watchdog.log";
 		
-		try{
+		if(!hasFileHandler) {
 			
-			File f = new File(this.logV);
-			if(!f.exists()){
+			try{
 				
-				f.createNewFile();
+				File f = new File(this.logV);
+				if(!f.exists()){
+					
+					f.createNewFile();
+					
+				}else{
+					
+					f.delete();
+				}
 				
-			}else{
+				FileHandler fh = new FileHandler(this.logV);
+				SimpleFormatter sf = new SimpleFormatter();
 				
-				f.delete();
+				fh.setFormatter(sf);
+				log.addHandler(fh);
+				
+				log.log(Level.INFO, "Watchdog logger gestartet!");
+				
+				hasFileHandler = true;
+				
+			}catch(IOException ioe){
+				
+				JOptionPane.showMessageDialog(null, "IOException: " + ioe.getMessage());
 			}
-			
-			FileHandler fh = new FileHandler(this.logV);
-			SimpleFormatter sf = new SimpleFormatter();
-			
-			fh.setFormatter(sf);
-			log.addHandler(fh);
-			
-			log.log(Level.INFO, "Watchdog logger gestartet!");
-			
-		}catch(IOException ioe){
-			
-			JOptionPane.showMessageDialog(null, "IOException: " + ioe.getMessage());
 		}
 	}
 	

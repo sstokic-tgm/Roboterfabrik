@@ -26,6 +26,7 @@ public class Lieferanten implements Runnable, Stoppable {
 	private String logV;
 	
 	private final static Logger log = Logger.getLogger("Lieferanten");
+	private static boolean hasFileHandler = false;
 	
 	public Lieferanten(Lagermitarbeiter lagerMit, String logV){
 		
@@ -34,29 +35,34 @@ public class Lieferanten implements Runnable, Stoppable {
 		
 		this.logV += "lieferanten.log";
 		
-		try{
-			
-			File f = new File(this.logV);
-			if(!f.exists()){
+		if(!hasFileHandler) {
+		
+			try{
 				
-				f.createNewFile();
+				File f = new File(this.logV);
+				if(!f.exists()){
+					
+					f.createNewFile();
+					
+				}else{
+					
+					f.delete();
+				}
 				
-			}else{
+				FileHandler fh = new FileHandler(this.logV);
+				SimpleFormatter sf = new SimpleFormatter();
 				
-				f.delete();
+				fh.setFormatter(sf);
+				log.addHandler(fh);
+				
+				log.log(Level.INFO, "Lieferanten logger gestartet!");
+				
+				hasFileHandler = true;
+				
+			}catch(IOException ioe){
+				
+				JOptionPane.showMessageDialog(null, "IOException: " + ioe.getMessage());
 			}
-			
-			FileHandler fh = new FileHandler(this.logV);
-			SimpleFormatter sf = new SimpleFormatter();
-			
-			fh.setFormatter(sf);
-			log.addHandler(fh);
-			
-			log.log(Level.INFO, "Lieferanten logger gestartet!");
-			
-		}catch(IOException ioe){
-			
-			JOptionPane.showMessageDialog(null, "IOException: " + ioe.getMessage());
 		}
 	}
 	/*Pfad der Arugemnts muss verwendet werden werden
@@ -64,26 +70,15 @@ public class Lieferanten implements Runnable, Stoppable {
 	 */
 	@Override
 	public void run(){
-		try{
-			ArrayList<Integer> al = new ArrayList<Integer>();
-		    Random rand = new Random();
-			for(int i = 0; i < 5; i++){
-				File f = new File("C:/Users/Meta/Documents/Roboterfabrik/test"+i+".txt");
-				System.out.println("test"+i);
-				f.createNewFile();
-				al.add(rand.nextInt(5));
-				RandomAccessFile file = new RandomAccessFile("C:/Users/Meta/Documents/Roboterfabrik/test"+i+".txt", "rw");
-				file.write(al.get(i));
-				file.close();
-			}
+		Random rm = new Random(18239);		
+		int[] rndNum = new int[20];
+		
+		for(int i = 0; i < rndNum.length; i++){
+			
+			rndNum[i] = rm.nextInt(250);
+			System.out.println(rndNum[i]);
 		}
-				catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
 	}
-	
 	@Override
 	public void stop(){
 		

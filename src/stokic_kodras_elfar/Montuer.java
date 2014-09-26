@@ -29,38 +29,43 @@ public class Montuer implements Runnable, Stoppable {
 	private String logV;
 	
 	private final static Logger log = Logger.getLogger("Montuer");
+	private static boolean hasFileHandler = false;
 	
 	public Montuer(int id, Lagermitarbeiter lagerMit, String logV){
 		
 		this.id = id;
 		this.lagerMit = lagerMit;
-		this.logV = logV;
 		
-		this.logV += "Montuer.log";
-		
-		try{
+		if(!hasFileHandler) {
 			
-			File f = new File(this.logV);
-			if(!f.exists()){
+			this.logV = logV;		
+			this.logV += "Montuer.log";
+			try{
 				
-				f.createNewFile();
+				File f = new File(this.logV);
+				if(!f.exists()){
+					
+					f.createNewFile();
+					
+				}else{
+					
+					f.delete();
+				}
 				
-			}else{
+				FileHandler fh = new FileHandler(this.logV);
+				SimpleFormatter sf = new SimpleFormatter();
 				
-				f.delete();
+				fh.setFormatter(sf);
+				log.addHandler(fh);
+				
+				log.log(Level.INFO, "Montuer logger gestartet!");
+				
+				hasFileHandler = true;
+				
+			}catch(IOException ioe){
+				
+				JOptionPane.showMessageDialog(null, "IOException: " + ioe.getMessage());
 			}
-			
-			FileHandler fh = new FileHandler(this.logV);
-			SimpleFormatter sf = new SimpleFormatter();
-			
-			fh.setFormatter(sf);
-			log.addHandler(fh);
-			
-			log.log(Level.INFO, "Montuer logger gestartet!");
-			
-		}catch(IOException ioe){
-			
-			JOptionPane.showMessageDialog(null, "IOException: " + ioe.getMessage());
 		}
 	}
 	
