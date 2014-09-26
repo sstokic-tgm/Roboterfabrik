@@ -84,24 +84,24 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 	}
 	
 	
-	public int getAugeL(){
+	public int[] getAugeL(){
 		
-		return 1;
+		return null;
 	}
 	
-	public int getAugeR(){
+	public int[] getAugeR(){
 		
-		return 1;
+		return null;
 	}
 	
-	public int getKettenantrieb(){
+	public int[] getKettenantrieb(){
 		
-		return 1;
+		return null;
 	}
 	
-	public int getRumpf(){
+	public int[] getRumpf(){
 		
-		return 1;
+		return null;
 	}
 	
 	public void setRoboter(){
@@ -114,14 +114,14 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 		return this.id;
 	}
 	
-	public int getArm1(){
+	public int[] getArm1(){
 		
-		return 1;
+		return null;
 	}
 	
-	public int getArm2(){
+	public int[] getArm2(){
 		
-		return 1;
+		return null;
 	}
 	
 }
