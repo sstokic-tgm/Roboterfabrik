@@ -27,7 +27,7 @@ public class Montuer implements Runnable, Stoppable {
 	private Lagermitarbeiter lagerMit;
 	private boolean isRunning;
 	private String logV;
-	
+	//static logger damit nicht jeder Lieferant ein eigenes Logfile erstellt
 	private final static Logger log = Logger.getLogger("Montuer");
 	private static boolean hasFileHandler = false;
 	

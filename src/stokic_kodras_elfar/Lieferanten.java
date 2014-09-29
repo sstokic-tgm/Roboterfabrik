@@ -26,6 +26,7 @@ public class Lieferanten implements Runnable, Stoppable {
 	private String logV;
 	
 	private final static Logger log = Logger.getLogger("Lieferanten");
+	//static logger damit nicht jeder Lieferant ein eigenes Logfile erstellt
 	private static boolean hasFileHandler = false;
 	
 	public Lieferanten(Lagermitarbeiter lagerMit, String logV){

@@ -10,20 +10,24 @@ public class Lager {
 	private File arm;
 	
 	public Lager(){
-		auge = new File("C:/Users/Meta/Dropbox/Schule/4AHITT/SEW/EclipseWorkspace/Roboterfabrik/lager/auge.txt");
-		rumpf = new File("C:/Users/Meta/Dropbox/Schule/4AHITT/SEW/EclipseWorkspace/Roboterfabrik/lager/rumpf.txt");
-		kettenantrieb = new File("C:/Users/Meta/Dropbox/Schule/4AHITT/SEW/EclipseWorkspace/Roboterfabrik/lager/kettenantrieb.txt");
-		arm = new File("C:/Users/Meta/Dropbox/Schule/4AHITT/SEW/EclipseWorkspace/Roboterfabrik/lager/arm.txt");
+		auge = new File("auge.txt");
+		rumpf = new File("./lager/rumpf.txt");
+		kettenantrieb = new File("./lager/kettenantrieb.txt");
+		arm = new File("./lager/arm.txt");
 		
 		try {
+		if(!auge.exists())	
 			auge.createNewFile();
+		if(!rumpf.exists());
 			rumpf.createNewFile();
+		if(!kettenantrieb.exists());
 			kettenantrieb.createNewFile();
+		if(!arm.exists());
 			arm.createNewFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 	public File getAuge() {

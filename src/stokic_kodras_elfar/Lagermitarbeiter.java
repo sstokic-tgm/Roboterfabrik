@@ -19,7 +19,7 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 	private String lagerV;
 	private Sekretariat sekr;
 	private boolean isRunning;
-	
+	//static logger damit nicht jeder Lieferant ein eigenes Logfile erstellt
 	private final static Logger log = Logger.getLogger("Lagermitarbeiter");
 	private static boolean hasFileHandler = false;
 	
