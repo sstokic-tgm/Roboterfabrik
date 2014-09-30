@@ -17,12 +17,7 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 	private int id;
 	private String logV;
 	private String lagerV;
-	private Sekretariat sekr;
 	private boolean isRunning;
-	private File auge;
-	private File rumpf;
-	private File kettenantrieb;
-	private File arm;
 	
 	//static logger damit nicht jeder Lieferant ein eigenes Logfile erstellt
 	private final static Logger log = Logger.getLogger("Lagermitarbeiter");
@@ -32,32 +27,13 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 		
 		this.logV = logV;
 		this.lagerV = lagerV;
-		auge = new File(lagerV+"auge.txt");
-		rumpf = new File(lagerV+"rumpf.txt");
-		kettenantrieb = new File(lagerV+"kettenantrieb.txt");
-		arm = new File(lagerV+"arm.txt");
 		
 		this.logV += "lagermitarbeiter.log";
+		
 		
 		if(!hasFileHandler) {
 		
 			try{
-				
-				//es wird geprüft ob die Files existieren, wenn nicht werden neue erstellt
-				
-				
-				if(!auge.exists())	
-					auge.createNewFile();
-				if(!rumpf.exists());
-					rumpf.createNewFile();
-				if(!kettenantrieb.exists());
-					kettenantrieb.createNewFile();
-				if(!arm.exists());
-					arm.createNewFile();
-				
-				File logDir = new File(lagerV+"log/");
-				if(!logDir.exists())
-					logDir.mkdir();
 				
 				File f = new File(this.logV);
 				if(!f.exists()){
@@ -88,16 +64,8 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 	
 	@Override
 	public void run(){
-		/*for(int i = 0; i < 5; i++){
-			File f = new File("C:/Users/Meta/Documents/Roboterfabrik/test"+i+".txt");
-			System.out.println("test"+i);
-			f.createNewFile();
-			
-			RandomAccessFile file = new RandomAccessFile("C:/Users/Meta/Documents/Roboterfabrik/test"+i+".txt", "rw");
-			file.write(al.get(i));
-			file.close();
-		}
-		*/
+		
+		
 	}
 	
 	@Override
@@ -107,6 +75,15 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 		log.log(Level.INFO, "Lagermitarbeiter beendet!");
 	}
 	
+	/**
+	 * Fuegt ein neues Teil hinzu
+	 * 
+	 * @param part das Teil
+	 */
+	public void addPart(String part) {
+		
+		
+	}
 	
 	public int[] getAugeL(){
 		
