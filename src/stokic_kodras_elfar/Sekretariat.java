@@ -20,10 +20,8 @@ public class Sekretariat {
 	//private boolean isRunning;
 	private ThreadPoolExecutor exLieferant, exMontuer, exWatchdog;
 	private Lagermitarbeiter lagerMit;
-	private Lager lager;
 	
 	public Sekretariat(int lieferanten, int montuere, int laufzeit, String lagerV, String logsV){
-		lager = new Lager();
 		this.lieferanten = lieferanten;
 		this.montuere = montuere;
 		this.laufzeit = laufzeit;
@@ -33,7 +31,7 @@ public class Sekretariat {
 		this.exLieferant = new ThreadPoolExecutor(lieferanten, lieferanten, laufzeit, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(lieferanten));
 		this.exMontuer = new ThreadPoolExecutor(montuere, montuere, laufzeit, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(montuere));
 		this.exWatchdog = new ThreadPoolExecutor(lieferanten + montuere, lieferanten + montuere, laufzeit, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(lieferanten + montuere));
-		
+			
 		this.lagerMit = new Lagermitarbeiter(this.lagerV, this.logsV);
 
 	}
@@ -79,5 +77,28 @@ public class Sekretariat {
 		exWatchdog.shutdown();
 		//lager.getArm().delete("C:/Users/Meta/Dropbox/Schule/4AHITT/SEW/EclipseWorkspace/Roboterfabrik/lager");
 	}
-	
+
+	public int getLieferanten() {
+		return lieferanten;
+	}
+
+	public int getMontuere() {
+		return montuere;
+	}
+
+	public int getLaufzeit() {
+		return laufzeit;
+	}
+
+	public String getLagerV() {
+		return lagerV;
+	}
+
+	public String getLogsV() {
+		return logsV;
+	}
+
+	public Lagermitarbeiter getLagerMit() {
+		return lagerMit;
+	}
 }

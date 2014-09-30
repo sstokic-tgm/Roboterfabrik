@@ -72,7 +72,7 @@ public class Montuer implements Runnable, Stoppable {
 	@Override
 	public void run(){
 		
-		sort();
+	//	sort();
 	}
 	
 	@Override

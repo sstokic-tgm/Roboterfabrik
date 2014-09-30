@@ -24,6 +24,7 @@ public class Lieferanten implements Runnable, Stoppable {
 	private Lagermitarbeiter lagerMit;
 	private boolean isRunning;
 	private String logV;
+
 	
 	private final static Logger log = Logger.getLogger("Lieferanten");
 	//static logger damit nicht jeder Lieferant ein eigenes Logfile erstellt
@@ -34,10 +35,11 @@ public class Lieferanten implements Runnable, Stoppable {
 		this.lagerMit = lagerMit;
 		this.logV = logV;
 		
+		
 		this.logV += "lieferanten.log";
 		
 		if(!hasFileHandler) {
-		
+			
 			try{
 				
 				File f = new File(this.logV);
@@ -68,14 +70,44 @@ public class Lieferanten implements Runnable, Stoppable {
 	}
 	@Override
 	public void run(){
-		Random rm = new Random(18239);		
-		int[] rndNum = new int[20];
+		/*Random rm = new Random(18239);	
+		Random rmTeil = new Random(4);
 		
+		int[] rndNum = new int[20];
+		int teil = rmTeil.nextInt();
+		
+		switch(1){
+		
+		case 1: 
+			try {
+			RandomAccessFile file = new RandomAccessFile(auge.getAbsolutePath(), "rw");
+			file.writeUTF("Auge,");
+				for(int i = 0; i < rndNum.length; i++){
+					rndNum[i] = rm.nextInt(250);
+						file.writeUTF(rndNum[i]+",");
+						
+				} 
+				for(int i = 0; i < rndNum.length;i++)
+					System.out.println(file.read());
+				file.close();
+			}	catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			break;
+			
+		case 2: break;
+		case 3: break;
+		case 4: break;
+		
+		}
 		for(int i = 0; i < rndNum.length; i++){
 			
 			rndNum[i] = rm.nextInt(250);
-			System.out.println(rndNum[i]);
+			
 		}
+		*/
 	}
 	@Override
 	public void stop(){
@@ -100,4 +132,5 @@ public class Lieferanten implements Runnable, Stoppable {
 		
 		return id;
 	}
+	
 }
