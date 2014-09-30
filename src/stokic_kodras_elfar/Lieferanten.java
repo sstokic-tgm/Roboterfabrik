@@ -20,10 +20,10 @@ import javax.swing.JOptionPane;
  */
 public class Lieferanten implements Runnable, Stoppable {
 
-	private int prodAnz;
 	private Lagermitarbeiter lagerMit;
 	private boolean isRunning;
 	private String logV;
+	private Random rm;
 
 	
 	private final static Logger log = Logger.getLogger("Lieferanten");
@@ -34,9 +34,11 @@ public class Lieferanten implements Runnable, Stoppable {
 		
 		this.lagerMit = lagerMit;
 		this.logV = logV;
-		
-		
+		rm = new Random();
+
 		this.logV += "lieferanten.log";
+		
+		this.isRunning = true;
 		
 		if(!hasFileHandler) {
 			
@@ -68,47 +70,46 @@ public class Lieferanten implements Runnable, Stoppable {
 			}
 		}
 	}
+	
 	@Override
 	public void run(){
-		/*Random rm = new Random(18239);	
-		Random rmTeil = new Random(4);
 		
-		int[] rndNum = new int[20];
-		int teil = rmTeil.nextInt();
-		
-		switch(1){
-		
-		case 1: 
-			try {
-			RandomAccessFile file = new RandomAccessFile(auge.getAbsolutePath(), "rw");
-			file.writeUTF("Auge,");
-				for(int i = 0; i < rndNum.length; i++){
-					rndNum[i] = rm.nextInt(250);
-						file.writeUTF(rndNum[i]+",");
-						
-				} 
-				for(int i = 0; i < rndNum.length;i++)
-					System.out.println(file.read());
-				file.close();
-			}	catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		while(this.isRunning) {
+			
+			switch(rm.nextInt(4) + 1) {
+			
+			case 1:
+				
+				this.lagerMit.addPart(this.createId("Auge"));
+				log.log(Level.INFO, "Neues Auge geliefert!");
+				
+			case 2:
+				
+				this.lagerMit.addPart(this.createId("Arm"));
+				log.log(Level.INFO, "Neuer Arm geliefert!");
+				
+			case 3:
+				
+				this.lagerMit.addPart(this.createId("Kettenantrieb"));
+				log.log(Level.INFO, "Neues Kettenantrieb geliefert!");
+				
+			case 4:
+				
+				this.lagerMit.addPart(this.createId("Rumpf"));
+				log.log(Level.INFO, "Neues Rumpf geliefert!");
 			}
 			
-			break;
-			
-		case 2: break;
-		case 3: break;
-		case 4: break;
-		
+			try {
+				
+				Thread.sleep(20);
+				
+			}catch(InterruptedException e) {
+				
+				log.log(Level.INFO, "Lieferant unterbrochen!");
+			}
 		}
-		for(int i = 0; i < rndNum.length; i++){
-			
-			rndNum[i] = rm.nextInt(250);
-			
-		}
-		*/
 	}
+	
 	@Override
 	public void stop(){
 		
@@ -120,17 +121,23 @@ public class Lieferanten implements Runnable, Stoppable {
 	 * Erstellt Pseudo random IDs
 	 * @return random ID-array
 	 */
-	public static int[] createId(){
+	public String createId(String part){
 		
-		Random rm = new Random(78160);		
+		String buffer = part + ",";
 		int[] id = new int[20];
 		
 		for(int i = 0; i < id.length; i++){
 			
-			id[i] = rm.nextInt(250);
+			if(i != id.length - 1) {
+				
+				buffer = buffer + rm.nextInt(250) + ",";
+			}else {
+				
+				buffer = buffer + rm.nextInt(250);
+			}
 		}
 		
-		return id;
+		return buffer;
 	}
 	
 }
