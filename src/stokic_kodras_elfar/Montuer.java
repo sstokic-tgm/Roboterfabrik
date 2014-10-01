@@ -2,6 +2,7 @@ package stokic_kodras_elfar;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,17 +14,17 @@ import javax.swing.JOptionPane;
  * Klasse die den Roboter zusammenbaut
  * 
  * @author Stokic Stefan
- * @version 1.0
+ * @version 1.6
  */
 public class Montuer implements Runnable, Stoppable {
 
 	private int id;
 	private int[] augeL;
 	private int[] augeR;
+	private int[] armL;
+	private int[] armR;
 	private int[] kettenantrieb;
 	private int[] rumpf;
-	private int[] arm1;
-	private int[] arm2;
 	private Lagermitarbeiter lagerMit;
 	private boolean isRunning;
 	private String logV;
@@ -64,7 +65,7 @@ public class Montuer implements Runnable, Stoppable {
 
 			}catch(IOException ioe){
 
-				JOptionPane.showMessageDialog(null, "IOException: " + ioe.getMessage());
+				log.log(Level.SEVERE, "IOException: " + ioe.getMessage());
 			}
 		}
 	}
@@ -73,6 +74,7 @@ public class Montuer implements Runnable, Stoppable {
 	public void run(){
 
 		//	sort();
+		buildRobot();
 	}
 
 	@Override
@@ -82,114 +84,120 @@ public class Montuer implements Runnable, Stoppable {
 		log.log(Level.INFO, "Montuer beendet!");
 	}
 
-	private void sort(){
-		int[] arm1Puffer = lagerMit.getArm1();
-		int[] arm2Puffer = lagerMit.getArm2();
-		int[] augeLPuffer = lagerMit.getAugeL();
-		int[] augeRPuffer = lagerMit.getAugeR();
-		int[] rumpfPuffer = lagerMit.getRumpf();
-		int[] kantriebPuffer = lagerMit.getKettenantrieb();
+	private void buildRobot() {
 
-		//Arm1
-		int len = arm1Puffer.length;
-		int j = 0;
-		int tmp = 0;
-		for(int i=0;i<len;i++){
-			j = i;
-			for(int k = i;k<len;k++){
-				if(arm1Puffer[j]>arm1Puffer[k]){
-					j = k;
-				}
-			}
-			tmp = arm1Puffer[i];
-			arm1Puffer[i] = arm1Puffer[j];
-			arm1Puffer[j] = tmp;
-		}
-		arm1 = arm1Puffer;
+		// wird spaeter befüllt bsp.: augeL = tmpAugeL.split(",");
+		/**
+		 * ACHTUNG!!!!!!!!!!!! augeL != this.augeL
+		 * this.augeL ist das sortierte
+		*/
+		String[] augeL, augeR, armL, armR, kettenantrieb, rumpf;
+		String tmpAugeL, tmpAugeR, tmpArmL, tmpArmR, tmpKettenantrieb, tmpRumpf;
 
-		//Arm2
-		len = arm2Puffer.length;
-		j = 0;
-		tmp = 0;
-		for(int i=0;i<len;i++){
-			j = i;
-			for(int k = i;k<len;k++){
-				if(arm2Puffer[j]>arm2Puffer[k]){
-					j = k;
-				}
-			}
-			tmp = arm2Puffer[i];
-			arm2Puffer[i] = arm2Puffer[j];
-			arm2Puffer[j] = tmp;
-		}
-		arm2 = arm1Puffer;
+		tmpAugeL = lagerMit.getPart(RoboParts.AUGE);
+		log.log(Level.INFO, "Hole linkes Auge aus dem Lager!");
+		if(tmpAugeL == null) {
 
-		//AugeL
-		len = augeLPuffer.length;
-		j = 0;
-		tmp = 0;
-		for(int i=0;i<len;i++){
-			j = i;
-			for(int k = i;k<len;k++){
-				if(augeLPuffer[j]>augeLPuffer[k]){
-					j = k;
-				}
-			}
-			tmp = augeLPuffer[i];
-			augeLPuffer[i] = augeLPuffer[j];
-			augeLPuffer[j] = tmp;
+			log.log(Level.WARNING, "Kein linkes Auge vorhanden!");
+			return;
 		}
-		augeL = augeLPuffer;
 
-		//AugeR
-		len = augeRPuffer.length;
-		j = 0;
-		tmp = 0;
-		for(int i=0;i<len;i++){
-			j = i;
-			for(int k = i;k<len;k++){
-				if(augeRPuffer[j]>augeRPuffer[k]){
-					j = k;
-				}
-			}
-			tmp = augeRPuffer[i];
-			augeRPuffer[i] = augeRPuffer[j];
-			augeRPuffer[j] = tmp;
-		}
-		augeR = augeRPuffer;
+		tmpAugeR = lagerMit.getPart(RoboParts.AUGE);
+		log.log(Level.INFO, "Hole rechtes Auge aus dem Lager!");
+		if(tmpAugeR == null) {
 
-		//Rumpf
-		len = rumpfPuffer.length;
-		j = 0;
-		tmp = 0;
-		for(int i=0;i<len;i++){
-			j = i;
-			for(int k = i;k<len;k++){
-				if(rumpfPuffer[j]>rumpfPuffer[k]){
-					j = k;
-				}
-			}
-			tmp = rumpfPuffer[i];
-			rumpfPuffer[i] = rumpfPuffer[j];
-			rumpfPuffer[j] = tmp;
+			log.log(Level.WARNING, "Kein rechtes Auge vorhanden, ich lege zurueck!");
+			lagerMit.returnPart(RoboParts.AUGE, tmpAugeL);
+			return;
 		}
-		rumpf = rumpfPuffer;
 
-		//Kettenantrieb
-		len = kantriebPuffer.length;
-		j = 0;
-		tmp = 0;
-		for(int i=0;i<len;i++){
-			j = i;
-			for(int k = i;k<len;k++){
-				if(kantriebPuffer[j]>kantriebPuffer[k]){
-					j = k;
-				}
-			}
-			tmp = kantriebPuffer[i];
-			kantriebPuffer[i] = kantriebPuffer[j];
-			kantriebPuffer[j] = tmp;
+		tmpArmL = lagerMit.getPart(RoboParts.ARM);
+		log.log(Level.INFO, "Hole linkes Arm aus dem Lager!");
+		if(tmpArmL == null) {
+
+			log.log(Level.WARNING, "Kein linkes Arm vorhanden, ich lege zurueck!");
+			lagerMit.returnPart(RoboParts.AUGE, tmpAugeL);
+			lagerMit.returnPart(RoboParts.AUGE, tmpAugeR);
+			return;
 		}
-		kettenantrieb = kantriebPuffer;
+
+		// usw. wird immer um das vorherige groesser
+
+
+		// wenn fertig mit jedem Teil dann =>
+		augeL = tmpAugeL.split(",");
+		augeR = tmpAugeR.split(",");
+		armL = tmpArmL.split(",");
+		// usw...
+
+		// dann fuer das sortierte vorbereiten
+		this.augeL = new int[augeL.length - 1];
+		this.augeR = new int[augeR.length - 1];
+		this.armL = new int[armL.length - 1];
+		// usw...
+
+		// befuellen
+		for(int i = 0; i < this.augeL.length; i++) {
+
+			this.augeL[i] = Integer.parseInt(augeL[i]);
+		}
+
+		for(int i = 0; i < this.augeR.length; i++) {
+
+			this.augeR[i] = Integer.parseInt(augeR[i]);
+		}
+
+		for(int i = 0; i < this.armL.length; i++) {
+
+			this.armL[i] = Integer.parseInt(armL[i]);
+		}
+		// usw...
+		
+		// die teile arrays sorten
+		Arrays.sort(this.augeL);
+		Arrays.sort(this.augeR);
+		Arrays.sort(this.armL);
+		// usw...
+		
+		String out = "Threadee-ID" + /* threadee-id */ ",Mitarbeiter-ID" + this.id + ",";
+		String augeLfinal, augeRfinal, armLfinal, armRfinal, kettenantriebfinal, rumpffinal;
+		
+		augeLfinal = "Auge,";
+		for(int i = 0; i < this.augeL.length; i++) {
+			
+			augeLfinal += this.augeL[i];
+			if(i != (this.augeL.length - 1)) {
+				
+				augeLfinal += ",";
+			}
+		}
+		
+		augeRfinal = "Auge,";
+		for(int i = 0; i < this.augeL.length; i++) {
+			
+			augeRfinal += this.augeL[i];
+			if(i != (this.augeR.length - 1)) {
+				
+				augeRfinal += ",";
+			}
+		}
+		// usw...
+		
+		out += augeLfinal + ",";
+		out += augeRfinal + ",";
+		// usw...
+		// beim letzten element braucht man kein "," extra
+		
+		/**
+		 * jetzt wird in die Datei geschrieben, sprich der Roboter
+		 * es wird hoechstwahrscheinlich eine schreib methode gebraucht, da hier das schreiben mit dem synchronized versehen
+		 * werden muss
+		 * 
+		 * pseudo-code:
+		 * if(!writeRobotToFile(out)) {
+		 * 		log.log(Level.SEVERE, "Failed writing");
+		 * }
+		 * log.log(Level.INFO, "Neuer Roboter erstellt: " + out);
+		 */
 	}
 }
