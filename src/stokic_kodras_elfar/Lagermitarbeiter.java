@@ -10,8 +10,8 @@ import java.util.logging.*;
  * Klasse welche neue Teile hinzufügt, löscht bzw. eine Klasse die die Teile verwaltet
  * Darunter versteht man ebenfalls, das Speichern/Loeschen der Teile in eine .csv Datei
  * 
- * @author Stokic Stefan
- * @version 1.6
+ * @author Stokic Stefan, El-Far Matthias, Kodras Dominik
+ * @version 1.8
  */
 public class Lagermitarbeiter implements Runnable, Stoppable {
 
@@ -36,7 +36,7 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 		this.logV = logV;
 		this.lagerV = lagerV;
 
-		this.logV += "lagermitarbeiter.log";
+		this.logV += "/lagermitarbeiter.log";
 
 
 		if(!hasFileHandler) {
@@ -46,6 +46,7 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 				File f = new File(this.logV);
 				if(!f.exists()){
 
+					f.getParentFile().mkdirs();
 					f.createNewFile();
 
 				}else{
@@ -91,7 +92,7 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 
 			}catch(InterruptedException ie) {
 
-				log.log(Level.SEVERE, "InterruptedException: " + ie.getMessage());
+				log.log(Level.SEVERE, "Lagermitarbeiter unterbrochen!");
 			}
 		}
 	}
@@ -106,8 +107,8 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 	/**
 	 * Fuegt ein neues Teil hinzu
 	 * 
-	 * @param parts
-	 * @param part
+	 * @param parts Art des Teils welches hinzufuegt wird
+	 * @param part das Teil welches hinzufuegt wird
 	 */
 	public void addPart(RoboParts parts, String part) {
 
@@ -142,8 +143,8 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 	/**
 	 * Holt sich ein Teil
 	 * 
-	 * @param parts
-	 * @return
+	 * @param parts Art des Teils welches verlangt wird
+	 * @return das Teil welches im String formt gespeichert wird
 	 */
 	public String getPart(RoboParts parts) {
 
@@ -208,7 +209,7 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 	/**
 	 * Teil aus dem Lager entfernen
 	 * 
-	 * @param part
+	 * @param part Teil welches aus dem Lager entfernt wird
 	 */
 	public void deletePart(String part) {
 
@@ -219,8 +220,8 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 	/**
 	 * Teil in das Lager zuruecklegen
 	 * 
-	 * @param parts
-	 * @param part
+	 * @param parts Art des Teils, welches zurueckgelegt wird
+	 * @param part Teil welches zurueckgelegt wird
 	 */
 	public void returnPart(RoboParts parts, String part) {
 
@@ -257,9 +258,9 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 	/**
 	 * Roboter parts in eine Datei schreiben
 	 * 
-	 * @param path
-	 * @param data
-	 * @return
+	 * @param path der Pfad der Datei
+	 * @param data Daten die geschrieben werden
+	 * @return falls erfolgreich oder nicht
 	 */
 	public boolean writeToFile(String path, ConcurrentLinkedQueue<String> data) {
 
@@ -301,8 +302,8 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 	/**
 	 * Roboter parts aus einer Datei lesen
 	 * 
-	 * @param path
-	 * @return
+	 * @param path der Pfad der Datei
+	 * @return eine Liste mit dem Inhalt der eingelesenen Datei
 	 */
 	public LinkedList<String> loadFromFile(String path) {
 
@@ -311,6 +312,7 @@ public class Lagermitarbeiter implements Runnable, Stoppable {
 			File f = new File(path);
 			if(!f.exists()){
 
+				f.getParentFile().mkdirs();
 				f.createNewFile();
 
 			}else{

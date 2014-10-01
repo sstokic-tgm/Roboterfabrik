@@ -26,7 +26,7 @@ public class Watchdog implements Runnable {
 		this.s = s;
 
 		this.logV = logV;
-		this.logV += "watchdog.log";
+		this.logV += "/watchdog.log";
 
 		if(!hasFileHandler) {
 

@@ -8,13 +8,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import javax.swing.JOptionPane;
-
 /**
  * Eine Klasse die neue Teile anliefert
  * 
- * @author Stokic Stefan
- * @version 1.6
+ * @author Stokic Stefan, El-Far Matthias, Kodras Dominik
+ * @version 1.8
  */
 public class Lieferanten implements Runnable, Stoppable {
 
@@ -34,9 +32,8 @@ public class Lieferanten implements Runnable, Stoppable {
 		this.logV = logV;
 		rm = new Random();
 
-		this.logV += "lieferanten.log";
+		this.logV += "/lieferanten.log";
 
-		this.isRunning = true;
 
 		if(!hasFileHandler) {
 
@@ -45,6 +42,7 @@ public class Lieferanten implements Runnable, Stoppable {
 				File f = new File(this.logV);
 				if(!f.exists()){
 
+					f.getParentFile().mkdirs();
 					f.createNewFile();
 
 				}else{
@@ -67,6 +65,8 @@ public class Lieferanten implements Runnable, Stoppable {
 				log.log(Level.SEVERE, "IOException: " + ioe.getMessage());
 			}
 		}
+		
+		this.isRunning = true;
 	}
 
 	@Override
@@ -117,6 +117,7 @@ public class Lieferanten implements Runnable, Stoppable {
 
 	/**
 	 * Erstellt Pseudo random IDs
+	 * 
 	 * @return random ID-array
 	 */
 	public String createId(String part){
