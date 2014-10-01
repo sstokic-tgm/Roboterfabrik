@@ -1,9 +1,7 @@
 package stokic_kodras_elfar;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -16,7 +14,7 @@ import javax.swing.JOptionPane;
  * Eine Klasse die neue Teile anliefert
  * 
  * @author Stokic Stefan
- * @version 1.0
+ * @version 1.6
  */
 public class Lieferanten implements Runnable, Stoppable {
 
@@ -66,7 +64,7 @@ public class Lieferanten implements Runnable, Stoppable {
 
 			}catch(IOException ioe){
 
-				JOptionPane.showMessageDialog(null, "IOException: " + ioe.getMessage());
+				log.log(Level.SEVERE, "IOException: " + ioe.getMessage());
 			}
 		}
 	}
