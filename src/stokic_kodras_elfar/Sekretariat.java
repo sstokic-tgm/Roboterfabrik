@@ -2,6 +2,7 @@ package stokic_kodras_elfar;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
 
 /**
  * Klasse die die Lieferanten, Lagermitarbeiter, Montuere und den Watchdog verwaltet/startet
@@ -12,7 +13,7 @@ import java.util.concurrent.*;
 public class Sekretariat {
 
 	private int montuerId;
-	private int roboterId = 1;
+	private AtomicInteger roboterId;
 	
 	private int lieferanten;
 	private int montuere;
@@ -26,6 +27,8 @@ public class Sekretariat {
 
 	public Sekretariat(int lieferanten, int montuere, int laufzeit, String lagerV, String logsV){
 
+		this.roboterId = new AtomicInteger();
+		
 		this.lieferanten = lieferanten;
 		this.montuere = montuere;
 		this.laufzeit = laufzeit;
@@ -87,6 +90,6 @@ public class Sekretariat {
 	 */
 	public int getRoboterId() {
 		
-		return roboterId++;
+		return roboterId.incrementAndGet();
 	}
 }
